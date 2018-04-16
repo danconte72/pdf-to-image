@@ -42,7 +42,7 @@ class Pdf
     {
         if (! filter_var($pdfFile, FILTER_VALIDATE_URL) && ! file_exists($pdfFile)) {
             throw new PdfDoesNotExist();
-        }       
+        }
 
         $this->pdfFile = $pdfFile;
 
@@ -50,13 +50,13 @@ class Pdf
             $this->pdfFile = $this->fetchRemoteFile();
 
             $this->isRemoteFile = true;
-        } 
+        }
 
         $this->imagick = new Imagick();
 
         $this->imagick->pingImage($this->pdfFile);
 
-        $this->numberOfPages = $this->imagick->getNumberImages();        
+        $this->numberOfPages = $this->imagick->getNumberImages();
     }
 
     /**
@@ -288,7 +288,7 @@ class Pdf
 
     /**
      * Get remote file and save temporally on image dir.
-     * 
+     *
      * @return string
      */
     protected function fetchRemoteFile()
@@ -311,7 +311,7 @@ class Pdf
         
         curl_close($remote);
         
-        fclose($local);   
+        fclose($local);
 
         return $tempPath;
     }
@@ -320,7 +320,7 @@ class Pdf
      * Delete temporally pdf file.
      *
      * @throws \Spatie\PdfToImage\Exceptions\TempFileDoesNotExist
-     * 
+     *
      * @return bool
      */
     protected function deleteTempFile()
