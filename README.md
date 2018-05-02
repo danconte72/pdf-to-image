@@ -1,16 +1,18 @@
 # Convert a pdf to an image
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/spatie/pdf-to-image.svg?style=flat-square)](https://packagist.org/packages/spatie/pdf-to-image)
-[![Software License](https://img.shields.io/badge/license-MIT-brightgreen.svg?style=flat-square)](LICENSE.md)
-[![Build Status](https://img.shields.io/travis/spatie/pdf-to-image/master.svg?style=flat-square)](https://travis-ci.org/spatie/pdf-to-image)
-[![SensioLabsInsight](https://img.shields.io/sensiolabs/i/e99ed9fd-89c4-4963-a0cf-02fe46714def.svg?style=flat-square)](https://insight.sensiolabs.com/projects/e99ed9fd-89c4-4963-a0cf-02fe46714def)
-[![Quality Score](https://img.shields.io/scrutinizer/g/spatie/pdf-to-image.svg?style=flat-square)](https://scrutinizer-ci.com/g/spatie/pdf-to-image)
-[![StyleCI](https://styleci.io/repos/38419604/shield?branch=master)](https://styleci.io/repos/38419604)
-[![Total Downloads](https://img.shields.io/packagist/dt/spatie/pdf-to-image.svg?style=flat-square)](https://packagist.org/packages/spatie/pdf-to-image)
-
 This package provides an easy to work with class to convert pdf's to images.
 
-Spatie is a webdesign agency in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
+## Fork
+This project was forked to enhance the remote file processing.
+When a remote file with high number of pages is processed it taked huge time, because Imagick seems to process the whole file, and not just pages required.
+We had facing a lot of troubles on own projects with saveImage first page of pdf, with > 300 pages, reaching more than 500 seconds for processing.  
+The issue who origined this improvement can be accessed [here](https://github.com/meumobi/sitebuilder/issues/312).
+
+### Results
+We have tested with this [file](https://www.rd.com.br/Download.aspx?Arquivo=g1va4C+5cfmJ7zPl9zlMTQ==) (15MB, 556 pages);  
+Reducing processing time from 465 sec to 59 sec.
+
+
 
 ## Requirements
 
@@ -18,9 +20,22 @@ You should have [Imagick](http://php.net/manual/en/imagick.setresolution.php) an
 
 ## Installation
 
-The package can be installed via composer:
-``` bash
-$ composer require spatie/pdf-to-image
+So far the package can be installed via composer, adding on **composer.json**:
+``` json
+  "repositories": [
+        {
+            "url": "https://github.com/meumobi/pdf-to-image.git",
+            "type": "git"
+        }
+    ],
+    "require": {
+        "meumobi/pdf-to-image": "dev-master"
+    }
+```
+
+And running:
+```bash
+$ composer install
 ```
 
 ## Usage
@@ -90,31 +105,3 @@ Please see [CHANGELOG](CHANGELOG.md) for more information what has changed recen
 ## Contributing
 
 Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security
-
-If you discover any security related issues, please email freek@spatie.be instead of using the issue tracker.
-
-## Postcardware
-
-You're free to use this package, but if it makes it to your production environment we highly appreciate you sending us a postcard from your hometown, mentioning which of our package(s) you are using.
-
-Our address is: Spatie, Samberstraat 69D, 2060 Antwerp, Belgium.
-
-We publish all received postcards [on our company website](https://spatie.be/en/opensource/postcards).
-
-## Credits
-
-- [Freek Van der Herten](https://github.com/spatie)
-- [All Contributors](../../contributors)
-
-## Support us
-
-Spatie is a webdesign agency based in Antwerp, Belgium. You'll find an overview of all our open source projects [on our website](https://spatie.be/opensource).
-
-Does your business depend on our contributions? Reach out and support us on [Patreon](https://www.patreon.com/spatie). 
-All pledges will be dedicated to allocating workforce on maintenance and new awesome stuff.
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
