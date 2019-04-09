@@ -29,9 +29,11 @@ class Pdf
 
     protected $layerMethod = Imagick::LAYERMETHOD_FLATTEN;
 
-    protected $colorspace;
+    protected $colorspace = Imagick::COLORSPACE_SRGB;
 
     protected $compressionQuality;
+
+    protected $width;
 
     protected $isRemoteFile = false;
 
@@ -54,11 +56,6 @@ class Pdf
             $this->pdfFile = $pdfFile;
         }
 
-        $this->imagick = new Imagick();
-
-        $this->imagick->pingImage($this->pdfFile);
-
-        $this->numberOfPages = $this->imagick->getNumberImages();
     }
 
     /**
@@ -172,6 +169,12 @@ class Pdf
      */
     public function getNumberOfPages()
     {
+        $this->imagick = new Imagick();
+
+        $this->imagick->pingImage($this->pdfFile);
+
+        $this->numberOfPages = $this->imagick->getNumberImages();
+        
         return $this->numberOfPages;
     }
 
@@ -190,7 +193,7 @@ class Pdf
         }
 
         $imageData = $this->getImageData($pathToImage);
-
+        
         $status = file_put_contents($pathToImage, $imageData) !== false;
         
         if ($clear) {
@@ -258,13 +261,28 @@ class Pdf
 
         $this->imagick->readImage(sprintf('%s[%s]', $this->pdfFile, $this->page - 1));
 
+        if ($this->width !== null) {
+            $this->imagick->scaleImage($this->width, 0);
+        }
+
         if (is_int($this->layerMethod)) {
             $this->imagick = $this->imagick->mergeImageLayers($this->layerMethod);
         }
 
         $this->imagick->setFormat($this->determineOutputFormat($pathToImage));
-
         return $this->imagick;
+    }
+
+    /**
+     * @param int $width
+     *
+     * @return $this
+     */
+    public function setWidth($width)
+    {
+        $this->width = $width;
+
+        return $this;
     }
 
     /**
